@@ -34,13 +34,13 @@ jobs:
           -reconfigure \
           -input=false
           
-          terraform apply \
-          -var-file=vars.tfvars
-          -input=false \
-          -auto-approve 
-          
-          export REPOSITORY_NAME=$(terraform output --raw repository_name)
-          echo "::set-output name=repository-name::$REPOSITORY_NAME"
+  #        terraform apply \
+  #        -var-file=vars.tfvars
+  #        -input=false \
+  #        -auto-approve 
+  #        
+  #        export REPOSITORY_NAME=$(terraform output --raw repository_name)
+  #        echo "::set-output name=repository-name::$REPOSITORY_NAME"
 
   # docker-build:
   #   runs-on: ubuntu-20.04
