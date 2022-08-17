@@ -1,5 +1,5 @@
 bucket                      = "terraform-states-woogie"
-key                         = "terraform.tfstate"
+key                         = ""
 region                      = "ap-northeast-2"
 encrypt                     = true
 dynamodb_table              = "terraform-locks"
