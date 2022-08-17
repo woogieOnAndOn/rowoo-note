@@ -34,10 +34,10 @@ jobs:
           -reconfigure \
           -input=false
           
-  #        terraform apply \
-  #        -var-file=vars.tfvars
-  #        -input=false \
-  #        -auto-approve 
+          terraform apply \
+          -var-file=vars.tfvars
+          -input=false \
+          -auto-approve 
   #        
   #        export REPOSITORY_NAME=$(terraform output --raw repository_name)
   #        echo "::set-output name=repository-name::$REPOSITORY_NAME"
