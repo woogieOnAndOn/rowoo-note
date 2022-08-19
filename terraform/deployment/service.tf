@@ -32,10 +32,9 @@ resource "aws_ecs_service" "ecs_service" {
   task_definition = aws_ecs_task_definition.service_task_fargate.arn
   desired_count   = 1
   launch_type     = "FARGATE"
-  for_each        = toset(data.aws_subnets.private.ids)
 
   network_configuration {
-    subnets          = each.value
+    subnets          = data.aws_subnets.private.ids
     assign_public_ip = false
     security_groups  = [aws_security_group.ecs_tasks.id]
   }
