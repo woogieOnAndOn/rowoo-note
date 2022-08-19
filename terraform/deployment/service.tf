@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "service_task_fargate" {
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([{
     name  = var.service_name
-    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/${var.service_name}-ecr:${var.image_tag}"
+    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/${var.service_name}-pipeline:${var.image_tag}"
     logConfiguration = {
       logDriver = "awslogs",
       options = {
@@ -32,9 +32,10 @@ resource "aws_ecs_service" "ecs_service" {
   task_definition = aws_ecs_task_definition.service_task_fargate.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+  for_each        = toset(data.aws_subnets.private.ids)
 
   network_configuration {
-    subnets          = data.aws_subnets.private.ids
+    subnets          = each.value
     assign_public_ip = false
     security_groups  = [aws_security_group.ecs_tasks.id]
   }
