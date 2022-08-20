@@ -79,7 +79,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-      - name: Create ECS
+      - name: Create ECR
         id: create-cluster
         run: |
           cd terraform/deployment/
