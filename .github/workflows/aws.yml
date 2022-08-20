@@ -71,6 +71,7 @@ jobs:
 
   cluster:
     runs-on: ubuntu-20.04
+    needs: [docker-build]
     steps:
       - name: Check Out
         uses: actions/checkout@v2
