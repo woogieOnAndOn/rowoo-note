@@ -68,3 +68,28 @@ jobs:
           docker build --platform linux/amd64 -t ${REPOSITORY_NAME}:${IMAGE_TAG} .
           docker tag ${REPOSITORY_NAME}:${IMAGE_TAG} ${REPOSITORY_URL}:${IMAGE_TAG}
           docker push ${REPOSITORY_URL}:${IMAGE_TAG}
+
+  cluster:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Create ECS
+        id: create-cluster
+        run: |
+          cd terraform/deployment/
+
+          terraform init \
+          -backend-config=config/backend-config.tf \
+          -reconfigure \
+          -input=false
+          
+          terraform apply \
+          -var-file=vars.tfvars \
+          -input=false \
+          -auto-approve 
