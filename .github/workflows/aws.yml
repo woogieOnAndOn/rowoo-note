@@ -95,7 +95,7 @@ jobs:
           -input=false
           
           terraform apply \
-          -var latest_image_tag=$latest_image_tag \
+          -var latest_image_tag=${IMAGE_TAG} \
           -var-file=vars.tfvars \
           -input=false \
           -auto-approve 
