@@ -68,21 +68,6 @@ resource "aws_cloudwatch_log_group" "containers" {
   }
 }
 
-data "aws_iam_policy_document" "cloudwatch_logs_policy" {
-  statement {
-    actions = [
-      "logs:CreateLogStream",
-      "logs:CreateLogGroup",
-      "logs:DescribeLogStreams",
-      "logs:PutLogEvents"
-    ]
-
-    resources = [
-      "${aws_cloudwatch_log_group.containers.arn}:*"
-    ]
-  }
-}
-
 resource "aws_iam_policy" "cloudwatch_logs_policy" {
   path   = "/ecs/task-role/"
   policy = data.aws_iam_policy_document.cloudwatch_logs_policy.json
