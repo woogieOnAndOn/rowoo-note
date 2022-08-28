@@ -48,8 +48,7 @@ resource "aws_security_group" "ecs_tasks" {
     protocol         = "tcp"
     from_port        = 3000
     to_port          = 3000
-    cidr_blocks      = [aws_vpc.main.cidr_block]
-    ipv6_cidr_blocks = [aws_vpc.main.ipv6_cidr_block]
+    cidr_blocks      = [data.aws_vpc.main.cidr_block]
   }
   egress {
     protocol         = "-1"
