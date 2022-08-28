@@ -93,6 +93,8 @@ jobs:
           -backend-config=config/backend-config.tf \
           -reconfigure \
           -input=false
+
+          echo ${IMAGE_TAG}
           
           terraform apply \
           -var latest_image_tag=${IMAGE_TAG} \
