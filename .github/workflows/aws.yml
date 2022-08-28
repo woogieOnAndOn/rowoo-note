@@ -69,7 +69,7 @@ jobs:
           docker tag ${REPOSITORY_NAME}:${IMAGE_TAG} ${REPOSITORY_URL}:${IMAGE_TAG}
           docker push ${REPOSITORY_URL}:${IMAGE_TAG}
 
-          export TF_VAR_latest_image_tag=${IMAGE_TAG}
+          export TF_VAR_latest_image_tag=$(git rev-parse --short HEAD)
 
   cluster:
     runs-on: ubuntu-20.04
