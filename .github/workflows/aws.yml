@@ -69,6 +69,8 @@ jobs:
           docker tag ${REPOSITORY_NAME}:${IMAGE_TAG} ${REPOSITORY_URL}:${IMAGE_TAG}
           docker push ${REPOSITORY_URL}:${IMAGE_TAG}
 
+          export TF_VAR_latest_image_tag=${IMAGE_TAG}
+
   cluster:
     runs-on: ubuntu-20.04
     needs: [docker-build]
@@ -91,6 +93,7 @@ jobs:
           -input=false
           
           terraform apply \
+          -var latest_image_tag=$latest_image_tag \
           -var-file=vars.tfvars \
           -input=false \
           -auto-approve 

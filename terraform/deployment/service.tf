@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "service_task_fargate" {
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([{
     name  = var.service_name
-    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/${var.service_name}-pipeline:latest"
+    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/${var.service_name}-pipeline:${var.latest_image_tag}"
     logConfiguration = {
       logDriver = "awslogs",
       options = {

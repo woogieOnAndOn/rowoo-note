@@ -3,7 +3,7 @@ variable "aws_region" {
   type        = string
 }
 
-variable "image_tag" {
+variable "latest_image_tag" {
   type 			= string
   description 	= "Given image tag for the current deployment."
 }
