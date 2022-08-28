@@ -42,8 +42,10 @@ jobs:
           export REPOSITORY_NAME=$(terraform output --raw repository_name)
           echo "::set-output name=repository-name::$REPOSITORY_NAME"
 
-  docker-build:
+  docker:
     runs-on: ubuntu-20.04
+    outputs:
+      image-tag: ${{ steps.docker-build.outputs.image-tag }}
     needs: [registry]
     env:
       REPOSITORY_NAME: ${{ needs.registry.outputs.repository-name }}
@@ -73,9 +75,9 @@ jobs:
 
   cluster:
     runs-on: ubuntu-20.04
-    needs: [docker-build]
+    needs: [docker]
     env:
-      IMAGE_TAG: ${{ needs.docker-build.outputs.image-tag }}
+      IMAGE_TAG: ${{ needs.docker.outputs.image-tag }}
     steps:
       - name: Check Out
         uses: actions/checkout@v2
