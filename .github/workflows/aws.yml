@@ -69,11 +69,13 @@ jobs:
           docker tag ${REPOSITORY_NAME}:${IMAGE_TAG} ${REPOSITORY_URL}:${IMAGE_TAG}
           docker push ${REPOSITORY_URL}:${IMAGE_TAG}
 
-          export TF_VAR_latest_image_tag=$(git rev-parse --short HEAD)
+          echo "::set-output name=image-tag::$IMAGE_TAG"
 
   cluster:
     runs-on: ubuntu-20.04
     needs: [docker-build]
+    env:
+      IMAGE_TAG: ${{ needs.docker-build.outputs.image-tag }}
     steps:
       - name: Check Out
         uses: actions/checkout@v2
