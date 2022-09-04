@@ -16,4 +16,6 @@ resource "aws_ecs_service" "ecs_service" {
     # assign_public_ip = false
     security_groups  = [aws_security_group.ecs_tasks.id]
   }
+
+  depends_on = [aws_lb_listener.http]
 }
