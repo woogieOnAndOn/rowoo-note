@@ -27,18 +27,18 @@ resource "aws_lb" "current" {
   enable_deletion_protection = false
 }
 
-resource "aws_alb_listener" "http" {
+resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.current.id
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.target_group.id
+    target_group_arn = aws_lb_target_group.target_group.id
     type             = "forward"
   }
 }
 
-resource "aws_alb_target_group" "target_group" {
+resource "aws_lb_target_group" "target_group" {
   name        = "${var.service_name}-tg"
   port        = 80
   protocol    = "HTTP"

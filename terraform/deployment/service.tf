@@ -5,6 +5,12 @@ resource "aws_ecs_service" "ecs_service" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+  load_balancer {
+    target_group_arn = aws_lb_target_group.target_group.arn
+    container_name   = "woogie"
+    container_port   = 3000
+  }
+
   network_configuration {
     subnets          = data.aws_subnets.private.ids
     assign_public_ip = false
