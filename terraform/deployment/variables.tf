@@ -8,16 +8,6 @@ variable "latest_image_tag" {
   description 	= "Given image tag for the current deployment."
 }
 
-variable "vpc_name" {
-  type 	= string
-  description = "Name of the containing VPC. Required."
-}
-
-variable "public_subnets" {
-  type    = list(string)
-  default = []
-}
-
 variable "service_name" {
   type        = string
   description = "the name of the service."
