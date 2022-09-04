@@ -12,6 +12,36 @@ resource "aws_iam_role" "ecs_task_execution_role" {
         }
     }]
   })
+
+  inline_policy {
+    name = "neccessary-policy-for-ecs-secrets"
+
+    policy = jsonencode({
+      Version : "2012-10-17",
+      Statement : [
+        {
+          Effect : "Allow",
+          Action : [
+            "ecr:GetAuthorizationToken",
+            "ecr:BatchCheckLayerAvailability",
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:BatchGetImage",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+            "ssm:GetParameters",
+            "secretsmanager:GetSecretValue",
+            "kms:Decrypt"
+          ],
+          Resource : [
+            "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+            "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter/${aws_ssm_parameter.ecs_task_ssm.name}",
+            "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${aws_secretsmanager_secret.ecs_task_secret_manager.name}",
+            "arn:aws:kms:${var.aws_region}:${data.aws_caller_identity.current.account_id}:key/${aws_kms_key.current.key_id}"
+          ]
+        }
+      ]
+    })
+  }
 }
 
 resource "aws_iam_role" "ecs_task_role" {
@@ -29,9 +59,4 @@ resource "aws_iam_role" "ecs_task_role" {
         }
     }]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-policy-attachment" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
