@@ -1,29 +1,8 @@
-module "lb_security_group_public" {
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 4.8.0"
-
-  // the fargate ENI will use this security group
-  // it also needs access to the ALB to allow traffic
-  name            = "fargate-allow-alb-traffic"
-  use_name_prefix = false
-  description     = "Security group for example usage with ALB"
-  vpc_id          = data.aws_vpc.main.id
-
-  ingress_cidr_blocks      = ["0.0.0.0/0"]
-  ingress_ipv6_cidr_blocks = ["::/0"]
-  ingress_rules            = ["http-80-tcp"]
-  egress_rules             = ["all-all"]
-
-  tags = {
-    Terraform = true
-  }
-}
-
 resource "aws_lb" "current" {
   name                       = "${var.service_name}-lb"
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.alb.id]
-  subnets                    = data.aws_subnets.public.ids
+  subnets                    = aws_subnet.public.*.id
   enable_deletion_protection = false
 }
 
@@ -42,7 +21,7 @@ resource "aws_lb_target_group" "target_group" {
   name        = "${var.service_name}-tg"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = data.aws_vpc.main.id
+  vpc_id      = aws_vpc.default.id
   target_type = "ip"
   health_check {
     healthy_threshold   = "3"
@@ -53,4 +32,8 @@ resource "aws_lb_target_group" "target_group" {
     path                = "/"
     unhealthy_threshold = "2"
   }
+}
+
+output "load_balancer_ip" {
+  value = aws_lb.current.dns_name
 }
