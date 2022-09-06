@@ -8,12 +8,12 @@ resource "aws_ecs_task_definition" "service_task_fargate" {
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([{
     name  = var.service_name
-    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/${var.service_name}-pipeline:${var.latest_image_tag}"
+    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.service_name}-pipeline:${var.latest_image_tag}"
     logConfiguration = {
       logDriver = "awslogs",
       options = {
         awslogs-group         = "/aws/ecs/${var.service_name}"
-        awslogs-region        = "ap-northeast-2"
+        awslogs-region        = var.aws_region
         awslogs-create-group  = "true"
         awslogs-stream-prefix = var.service_name
       }
