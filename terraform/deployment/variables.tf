@@ -6,6 +6,7 @@ variable "aws_region" {
 variable "latest_image_tag" {
   type 			= string
   description 	= "Given image tag for the current deployment."
+  default = ""
 }
 
 variable "service_name" {
