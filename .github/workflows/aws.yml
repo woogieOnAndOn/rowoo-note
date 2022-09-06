@@ -73,31 +73,31 @@ jobs:
 
           echo "::set-output name=image-tag::$IMAGE_TAG"
 
-  # service:
-  #   runs-on: ubuntu-20.04
-  #   needs: [docker]
-  #   env:
-  #     IMAGE_TAG: ${{ needs.docker.outputs.image-tag }}
-  #   steps:
-  #     - name: Check Out
-  #       uses: actions/checkout@v2
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-  #         aws-region: ${{ env.AWS_REGION }}
-  #     - name: Create ECS
-  #       id: create-service
-  #       run: |
-  #         cd terraform/deployment/
+  service:
+    runs-on: ubuntu-20.04
+    needs: [docker]
+    env:
+      IMAGE_TAG: ${{ needs.docker.outputs.image-tag }}
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Create ECS
+        id: create-service
+        run: |
+          cd terraform/deployment/
 
-  #         terraform init \
-  #         -backend-config=config/backend-config.tf \
-  #         -reconfigure \
-  #         -input=false
+          terraform init \
+          -backend-config=config/backend-config.tf \
+          -reconfigure \
+          -input=false
 
-  #         terraform apply \
-  #         -var-file=vars.tfvars \
-  #         -var latest_image_tag=${IMAGE_TAG} \
-  #         -input=false \
-  #         -auto-approve 
+          terraform apply \
+          -var-file=vars.tfvars \
+          -var latest_image_tag=${IMAGE_TAG} \
+          -input=false \
+          -auto-approve 
