@@ -1,2 +1,2 @@
-registry_name = "woogie-cicd-pipeline"
+service_name = "woogie-cicd"
 aws_region = "ap-northeast-2"

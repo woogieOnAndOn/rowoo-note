@@ -1,5 +1,6 @@
-variable "registry_name" {
-  type = string
+variable "service_name" {
+  type        = string
+  description = "the name of the service."
 }
 
 variable "aws_region" {

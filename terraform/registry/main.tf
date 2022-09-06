@@ -1,9 +1,9 @@
 resource "aws_ecr_repository" "repository" {
-  name                 = var.registry_name
+  name                 = "${var.service_name}-pipeline"
   image_tag_mutability = "IMMUTABLE" // Default: MUTABLE, 동일한 태그를 사용하는 후속 이미지 푸시가 이미지 태그를 덮어쓰지 않도록 방지(IMMUTABLE)
 
   tags                 = {
-    Name = var.registry_name
+    Name = "${var.service_name}-pipeline"
   }
 
   image_scanning_configuration {

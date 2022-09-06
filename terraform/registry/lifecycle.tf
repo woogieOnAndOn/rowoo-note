@@ -1,5 +1,5 @@
 resource "aws_ecr_lifecycle_policy" "foopolicy" {
-  repository = var.registry_name
+  repository = aws_ecr_repository.repository.name
 
   policy = jsonencode({
     rules : [
