@@ -1,2 +1,2 @@
-# 브랜치
-main(배포) < dev(개발) < feature
+# 개발
+[**위키**](https://github.com/woogieOnAndOn/rowoo-note/wiki)의 **개발관련 필독** 파트 반드시 읽어주세요.
