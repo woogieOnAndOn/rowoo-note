@@ -4,15 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "migrate": "node migrate.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "dotenv": "^16.0.2",
-    "marv": "^6.0.0",
-    "marv-mysql-driver": "^4.0.1",
     "mysql2": "^2.3.3",
     "next": "12.2.5",
     "react": "18.2.0",
