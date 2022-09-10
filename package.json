@@ -4,16 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "migrate:init": "node umzug.mjs up",
+    "migrate:clean": "node umzug.mjs clean",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "dotenv": "^16.0.2",
+    "fs": "^0.0.1-security",
     "mysql2": "^2.3.3",
     "next": "12.2.5",
+    "path": "^0.12.7",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "umzug": "^3.2.1"
   },
   "devDependencies": {
     "@types/node": "18.7.2",
