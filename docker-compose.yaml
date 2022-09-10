@@ -4,7 +4,7 @@ services:
   nextjs:
     container_name: rowoo-note-service
     ports:
-     - "3000:3000"
+      - "3000:3000"
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -13,9 +13,7 @@ services:
     volumes:
       - .:/usr/src/app
       - "/usr/src/app/node_modules"
-      - "/usr/src/app/.next" 
-    links:
-      - mysql
+      - "/usr/src/app/.next"
 
   mysql:
     container_name: rowoo-note-db
@@ -23,11 +21,19 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: rowoo0906
+      MYSQL_DATABASE: note
     restart: always
     ports:
       - "33069:3306"
+    command:
+      [
+        "mysqld",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_bin"
+      ]
 
   adminer:
+    container_name: rowoo-note-adminer
     platform: linux/x86_64
     image: adminer
     restart: always
